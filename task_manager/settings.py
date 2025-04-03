@@ -25,4 +25,5 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 
 INSTALLED_APPS = [
     'task_manager',
+    'django.contrib.staticfiles'
 ]
