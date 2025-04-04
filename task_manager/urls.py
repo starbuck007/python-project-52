@@ -1,10 +1,8 @@
 from django.urls import path
-from django.http import HttpResponse
+from django.shortcuts import render
 
-
-def index(request):
-    return HttpResponse("Hello from Django!")
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', lambda request: render(request,
+                                    'index.html'), name='home'),
 ]

@@ -10,7 +10,8 @@ dependencies = [
     "python-dotenv",
     "dj-database-url",
     "gunicorn",
-    "psycopg2-binary"
+    "psycopg2-binary",
+    "django-bootstrap5"
 ]
 requires-python = ">=3.10"
 
