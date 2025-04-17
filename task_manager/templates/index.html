@@ -1,4 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+  {% if user.is_authenticated %}
+    <div class="alert alert-success">
+      You are logged in
+    </div>
+  {% endif %}
+
+  <div class="container mt-4">
+    <h1>Task Manager</h1>
+  </div>
 {% endblock %}
