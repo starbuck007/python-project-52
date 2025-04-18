@@ -1,3 +1,4 @@
+"""settings.py module for the task manager app."""
 import os
 from  pathlib import Path
 from dotenv import load_dotenv

@@ -1,3 +1,4 @@
+"""urls.py module for the task manager app."""
 from django.contrib import admin
 from django.urls import path, include
 from . import views

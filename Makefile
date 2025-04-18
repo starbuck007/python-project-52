@@ -13,5 +13,11 @@ build:
 run:
 	python manage.py runserver
 
-render-start:
+render-star:
 	gunicorn task_manager.wsgi:application --bind 0.0.0.0:$(PORT)
+
+test:
+	python manage.py test task_manager.tests
+
+cov:
+	uv run coverage xml
