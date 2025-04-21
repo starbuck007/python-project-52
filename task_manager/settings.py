@@ -19,11 +19,14 @@ DATABASES = {
     'default': dj_database_url.config(conn_max_age=600)
 }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 INSTALLED_APPS = [
     'task_manager',
+    'task_manager.statuses.apps.StatusesConfig',
     'django_bootstrap5',
     'django.contrib.staticfiles',
     'django.contrib.admin',

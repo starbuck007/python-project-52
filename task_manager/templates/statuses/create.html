@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Create Status</h1>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="id_name" class="form-label">Name:</label>
+      <input type="text" name="name" class="form-control" id="id_name" placeholder="Name" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+{% endblock %}
