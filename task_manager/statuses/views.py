@@ -8,20 +8,28 @@ from .models import Status
 from .forms import StatusForm
 
 
-class StatusListView(ListView):
+class CustomLoginRequiredMixin(LoginRequiredMixin):
+    login_url = 'login'
+
+    def handle_no_permission(self):
+        messages.error(self.request,
+                       'You are not authorized! Please log in')
+        return super().handle_no_permission()
+
+
+class StatusListView(CustomLoginRequiredMixin, ListView):
     model = Status
     template_name = 'statuses/statuses.html'
     context_object_name = 'statuses'
-    login_url = 'login'
 
 
-class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class StatusCreateView(CustomLoginRequiredMixin,
+                       SuccessMessageMixin, CreateView):
     model = Status
     form_class = StatusForm
     template_name = 'statuses/form.html'
     success_url = reverse_lazy('status_list')
     success_message = 'Status was successfully created'
-    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,13 +38,13 @@ class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return context
 
 
-class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class StatusUpdateView(CustomLoginRequiredMixin,
+                       SuccessMessageMixin, UpdateView):
     model = Status
     form_class = StatusForm
     template_name = 'statuses/form.html'
     success_url = reverse_lazy('status_list')
     success_message = 'Status was successfully updated'
-    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,11 +53,10 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return context
 
 
-class StatusDeleteView(LoginRequiredMixin, DeleteView):
+class StatusDeleteView(CustomLoginRequiredMixin, DeleteView):
     model = Status
     template_name = 'statuses/delete.html'
     success_url = reverse_lazy('status_list')
-    login_url = 'login'
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()

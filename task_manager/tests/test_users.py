@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 
-class UserCRUDTestCase(TestCase):
-    """Class representing UserCRUDTestCase logic."""
+class UserTestCase(TestCase):
+    """Class representing UserTestCase logic."""
     def setUp(self):
         """Handles the setUp view logic."""
         self.user = User.objects.create_user(
