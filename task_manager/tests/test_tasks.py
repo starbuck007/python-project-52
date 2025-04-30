@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
+from task_manager.labels.models import Label
 
 
 class TaskTestCase(TestCase):
@@ -81,6 +82,57 @@ class TaskTestCase(TestCase):
         self.assertEqual(task.executor, self.user1)
         self.assertEqual(task.creator, self.user1)
 
+    def test_task_create_with_labels(self):
+        """Tests creating a task with labels."""
+        self.client.login(username='darth_vader', password='12345')
+        label1 = Label.objects.create(name='Label 1')
+        label2 = Label.objects.create(name='Label 2')
+        task_data = {
+            'name': 'Task with Labels',
+            'description': 'Task with multiple labels',
+            'status': self.status1.id,
+            'executor': self.user2.id,
+            'labels': [label1.id, label2.id]
+        }
+        response = self.client.post(
+            reverse('task_create'),
+            task_data,
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Task.objects.filter(name='Task with Labels').exists())
+        task = Task.objects.get(name='Task with Labels')
+        self.assertEqual(task.labels.count(), 2)
+        self.assertTrue(task.labels.filter(name='Label 1').exists())
+        self.assertTrue(task.labels.filter(name='Label 2').exists())
+
+    def test_task_update_labels(self):
+        """Tests updating task labels."""
+        self.client.login(username='darth_vader', password='12345')
+        label1 = Label.objects.create(name='Label 1')
+        label2 = Label.objects.create(name='Label 2')
+        label3 = Label.objects.create(name='Label 3')
+        self.task1.labels.add(label1, label2)
+        update_data = {
+            'name': self.task1.name,
+            'description': self.task1.description,
+            'status': self.task1.status.id,
+            'executor': self.task1.executor.id,
+            'labels': [label2.id, label3.id]
+        }
+        response = self.client.post(
+            reverse('task_update', kwargs={'pk': self.task1.pk}),
+            update_data,
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.task1.refresh_from_db()
+        self.assertEqual(self.task1.labels.count(), 2)
+        self.assertFalse(self.task1.labels.filter(name='Label 1').exists())
+        self.assertTrue(self.task1.labels.filter(name='Label 2').exists())
+        self.assertTrue(self.task1.labels.filter(name='Label 3').exists())
+
     def test_task_update_no_executor(self):
         self.client.login(username='darth_vader', password='12345')
         update_data = {
@@ -134,3 +186,21 @@ class TaskTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['tasks']), 1)
         self.assertEqual(response.context['tasks'][0].name, 'Task 1')
+
+    def test_task_filter_by_label(self):
+        """Tests filtering tasks by label."""
+        self.client.login(username='darth_vader', password='12345')
+        label1 = Label.objects.create(name='Filter Label')
+        label2 = Label.objects.create(name='Other Label')
+        self.task1.labels.add(label1)
+        self.task2.labels.add(label2)
+
+        response = self.client.get(f"{reverse('task_list')}?label={label1.id}")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['tasks']), 1)
+        self.assertEqual(response.context['tasks'][0].name, 'Task 1')
+
+        response = self.client.get(f"{reverse('task_list')}?label={label2.id}")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['tasks']), 1)
+        self.assertEqual(response.context['tasks'][0].name, 'Task 2')

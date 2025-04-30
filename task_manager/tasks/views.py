@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from .models import Task
 from .forms import TaskForm
 from task_manager.statuses.models import Status
+from task_manager.labels.models import Label
 from task_manager.mixins import CustomLoginRequiredMixin
 
 
@@ -24,6 +25,9 @@ class TaskListView(CustomLoginRequiredMixin, ListView):
         executor_id = self.request.GET.get('executor')
         if executor_id:
             queryset = queryset.filter(executor_id=executor_id)
+        label_id = self.request.GET.get('label')
+        if label_id:
+            queryset = queryset.filter(labels__id=label_id)
         only_my_tasks = self.request.GET.get('my_tasks')
         if only_my_tasks:
             queryset = queryset.filter(creator=self.request.user)
@@ -33,6 +37,7 @@ class TaskListView(CustomLoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['statuses'] = Status.objects.all()
         context['users'] = User.objects.all()
+        context['labels'] = Label.objects.all()
         return context
 
 
@@ -116,3 +121,9 @@ class TaskDetailView(CustomLoginRequiredMixin, DetailView):
     model = Task
     template_name = 'tasks/task.html'
     context_object_name = 'task'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = TaskForm()
+        context['labels_label'] = form.fields['labels'].label
+        return context

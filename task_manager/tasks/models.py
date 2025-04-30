@@ -12,6 +12,8 @@ class Task(models.Model):
     executor = models.ForeignKey(User, on_delete=models.PROTECT,
                                  related_name='assigned_tasks', null=True,
                                  blank=True)
+    labels = models.ManyToManyField('labels.Label', blank=True,
+                                    related_name='tasks')
     created_at = models.DateTimeField(auto_now_add=True)
 
 
