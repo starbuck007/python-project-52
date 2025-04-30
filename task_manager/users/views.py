@@ -9,6 +9,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from .forms import CustomUserCreationForm, UserUpdateForm
 from django.contrib.auth import logout
+from task_manager.mixins import CustomLoginRequiredMixin
+from django.db.models import ProtectedError
 
 
 class UserListView(ListView):
@@ -46,11 +48,12 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
         return redirect('user_list')
 
 
-class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class UserDeleteView(CustomLoginRequiredMixin, DeleteView):
     """Class representing UserDeleteView logic."""
     model = User
-    template_name = 'users/delete.html'
+    template_name = 'delete.html'
     success_url = reverse_lazy('user_list')
+    permission_denied_message = "You don't have permission to delete another user."
 
     def test_func(self):
         """Handles the test_func view logic."""
@@ -58,18 +61,33 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def handle_no_permission(self):
         """Handles the handle_no_permission view logic."""
-        messages.error(self.request,
-                       "You don't have permission to delete another user.")
+        messages.error(self.request, self.permission_denied_message)
         return redirect('user_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_type'] = 'User'
+        context['object_name'] = self.object.get_full_name() or self.object.username
+        context['cancel_url'] = reverse_lazy('user_list')
+        return context
 
     def post(self, request, *args, **kwargs):
         """Handles the post view logic."""
         self.object = self.get_object()
-        is_self_deletion = self.object == request.user
-        self.object.delete()
-        messages.success(request, 'User was successfully deleted')
-        if is_self_deletion:
+
+        if self.request.user.pk != self.object.pk:
+            messages.error(self.request, self.permission_denied_message)
+            return redirect('user_list')
+
+        try:
+            self.object.delete()
+            messages.success(self.request,
+                             'User was successfully deleted')
             logout(request)
             messages.info(request, 'You are logged out')
             return redirect('home')
-        return redirect(self.success_url)
+
+        except ProtectedError:
+            messages.error(self.request,
+                           'Cannot delete a user because it is in use')
+            return redirect('user_list')

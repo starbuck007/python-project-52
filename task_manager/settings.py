@@ -27,6 +27,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 INSTALLED_APPS = [
     'task_manager',
     'task_manager.statuses.apps.StatusesConfig',
+    'task_manager.tasks.apps.TasksConfig',
     'django_bootstrap5',
     'django.contrib.staticfiles',
     'django.contrib.admin',

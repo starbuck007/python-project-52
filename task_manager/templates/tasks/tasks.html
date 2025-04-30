@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Tasks</h1>
+
+  <a href="{% url 'task_create' %}" class="btn btn-primary mb-3">Create Task</a>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <form method="get">
+        <div class="mb-3">
+          <label for="id_status">Status</label>
+          <select name="status" id="id_status" class="form-select">
+            <option value="">---------</option>
+            {% for status in statuses %}
+              <option value="{{ status.id }}" {% if request.GET.status == status.id|stringformat:"i" %}selected{% endif %}>{{ status.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="id_executor">Executor</label>
+          <select name="executor" id="id_executor" class="form-select">
+            <option value="">---------</option>
+            {% for user in users %}
+              <option value="{{ user.id }}" {% if request.GET.executor == user.id|stringformat:"i" %}selected{% endif %}>{{ user.username }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="id_label">Label</label>
+          <select name="label" id="id_label" class="form-select">
+            <option value="">---------</option>
+            {% if labels %}
+              {% for label in labels %}
+                <option value="{{ label.id }}" {% if request.GET.label == label.id|stringformat:"i" %}selected{% endif %}>{{ label.name }}</option>
+              {% endfor %}
+            {% endif %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="my_tasks" id="id_my_tasks" value="1" {% if request.GET.my_tasks %}checked{% endif %}>
+            <label class="form-check-label" for="id_my_tasks">Only my tasks</label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Show</button>
+      </form>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Author</th>
+        <th>Executor</th>
+        <th>Created at</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td>{{ task.id }}</td>
+          <td><a href="{% url 'task_detail' task.id %}">{{ task.name }}</a></td>
+          <td>{{ task.status.name }}</td>
+          <td>{{ task.creator.get_full_name|default:task.creator.username }}</td>
+          <td>{{ task.executor.get_full_name|default:task.executor.username|default:'-' }}</td>
+          <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
+          <td>
+            <a href="{% url 'task_update' task.id %}" class="text-primary d-block">Edit</a>
+            <a href="{% url 'task_delete' task.id %}" class="text-danger d-block">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center">No tasks found</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
