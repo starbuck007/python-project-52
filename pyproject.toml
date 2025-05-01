@@ -12,7 +12,8 @@ dependencies = [
     "gunicorn",
     "psycopg2-binary",
     "django-bootstrap5",
-    "coverage"
+    "coverage",
+    "rollbar"
 ]
 requires-python = ">=3.10"
 

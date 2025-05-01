@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.http import HttpResponse
+import rollbar
 
 
 def index_view(request):
@@ -33,3 +35,10 @@ def logout_view(request):
     logout(request)
     messages.info(request, 'You are logged out')
     return redirect('home')
+
+def test_rollbar(request):
+    try:
+        1 / 0
+    except Exception as e:
+        rollbar.report_exc_info()
+        return HttpResponse("Тест отправки ошибки в Rollbar")
