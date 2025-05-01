@@ -35,10 +35,3 @@ def logout_view(request):
     logout(request)
     messages.info(request, 'You are logged out')
     return redirect('home')
-
-def test_rollbar(request):
-    try:
-        1 / 0
-    except Exception as e:
-        rollbar.report_exc_info()
-        return HttpResponse("Тест отправки ошибки в Rollbar")
