@@ -17,6 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv
+          pip install flake8 coverage
           make install
       - name: Run linter and pytest
         run: |
