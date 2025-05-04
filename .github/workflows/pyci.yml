@@ -13,16 +13,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install UV
-        run: |
-            curl -LsSf https://astral.sh/uv/install.sh | sh
-            echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: |
-          make install
+          python -m pip install --upgrade pip
+          python -m pip install django python-dotenv dj-database-url gunicorn psycopg2-binary django-bootstrap5 coverage flake8 rollbar
       - name: Run test coverage
         run: |
-          make test-coverage
+          python -m coverage run --source=task_manager manage.py test
+          python -m coverage xml
       - name: SonarQubeScan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
