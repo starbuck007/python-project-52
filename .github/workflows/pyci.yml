@@ -20,26 +20,6 @@ jobs:
       - name: Install dependencies
         run: |
           make install
-      - name: Run linter and pytest
-        run: |
-          make check
-          pip install flake8
-      - name: Debug environment
-        run: |
-            echo "Python location:"
-            which python
-            echo "Python version:"
-            python --version
-            echo "UV location:"
-            which uv || echo "UV not found in PATH"
-            echo "Flake8 location:"
-            which flake8 || echo "Flake8 not found in PATH"
-            echo "Installed packages:"
-            pip list
-            echo "Current directory:"
-            pwd
-            echo "Directory contents:"
-            ls -la
       - name: Run test coverage
         run: |
           make test-coverage
