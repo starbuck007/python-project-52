@@ -50,7 +50,7 @@ class MainViewsTestCase(BaseTestCase):
         """Test logout view."""
         self.login_user()
         self.assertTrue(self.client.session.get('_auth_user_id'))
-        
+
         response = self.client.post(
             reverse('logout'),
             follow=True

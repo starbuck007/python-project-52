@@ -19,5 +19,12 @@ render-start:
 test:
 	python manage.py test task_manager.tests
 
+check:
+	flake8
+
+test-coverage:
+	coverage run --source=task_manager manage.py test
+	coverage xml
+
 cov:
 	uv run coverage xml

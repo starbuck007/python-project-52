@@ -10,7 +10,6 @@ def index_view(request):
     return render(request, 'index.html')
 
 
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
