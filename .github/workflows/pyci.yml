@@ -13,10 +13,18 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Set up environment variables
+        run: |
+          echo "DATABASE_URL=sqlite:///db.sqlite3" >> $GITHUB_ENV
+          echo "SECRET_KEY=github-actions-test-key" >> $GITHUB_ENV
+          echo "DEBUG=True" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install django python-dotenv dj-database-url gunicorn psycopg2-binary django-bootstrap5 coverage flake8 rollbar
+      - name: Apply migrations
+        run: |
+          python manage.py migrate
       - name: Run test coverage
         run: |
           python -m coverage run --source=task_manager manage.py test
