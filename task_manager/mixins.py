@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
@@ -7,5 +8,5 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
 
     def handle_no_permission(self):
         messages.error(self.request,
-                       'You are not authorized! Please log in')
+                       _('You are not authorized! Please log in'))
         return super().handle_no_permission()

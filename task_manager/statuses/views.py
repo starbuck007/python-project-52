@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from task_manager.mixins import CustomLoginRequiredMixin
 from django.db.models import ProtectedError
+from django.utils.translation import gettext_lazy as _
 from .models import Status
 from .forms import StatusForm
 
@@ -21,12 +22,12 @@ class StatusCreateView(CustomLoginRequiredMixin,
     form_class = StatusForm
     template_name = 'statuses/form.html'
     success_url = reverse_lazy('status_list')
-    success_message = 'Status was successfully created'
+    success_message = _('Status was successfully created')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Create Status'
-        context['button_text'] = 'Create'
+        context['title'] = _('Create Status')
+        context['button_text'] = _('Create')
         return context
 
 
@@ -36,12 +37,12 @@ class StatusUpdateView(CustomLoginRequiredMixin,
     form_class = StatusForm
     template_name = 'statuses/form.html'
     success_url = reverse_lazy('status_list')
-    success_message = 'Status was successfully updated'
+    success_message = _('Status was successfully updated')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edit Status'
-        context['button_text'] = 'Edit'
+        context['title'] = _('Edit Status')
+        context['button_text'] = _('Edit')
         return context
 
 
@@ -52,7 +53,7 @@ class StatusDeleteView(CustomLoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = 'Status'
+        context['object_type'] = _('Status')
         context['object_name'] = self.object.name
         context['cancel_url'] = reverse_lazy('status_list')
         return context
@@ -63,10 +64,10 @@ class StatusDeleteView(CustomLoginRequiredMixin, DeleteView):
         try:
             self.object.delete()
             messages.success(self.request,
-                             'Status was successfully deleted')
+                             _('Status was successfully deleted'))
         except ProtectedError:
             messages.error(self.request,
-                           'Cannot delete status because it is in use')
+                           _('Cannot delete status because it is in use'))
             return redirect('status_list')
         return redirect(success_url)
 

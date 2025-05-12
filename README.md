@@ -1,5 +1,6 @@
 # Task Manager
 [![Actions Status](https://github.com/starbuck007/python-project-52/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/starbuck007/python-project-52/actions)
+[![Python CI](https://github.com/starbuck007/python-project-52/actions/workflows/pyci.yml/badge.svg)](https://github.com/starbuck007/python-project-52/actions/workflows/pyci.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=starbuck007_python-project-52&metric=coverage)](https://sonarcloud.io/summary/new_code?id=starbuck007_python-project-52)
 
 A web application for task management built with Django. This project enables teams to organize their work by creating and tracking tasks, assigning executors, setting statuses, and adding labels.

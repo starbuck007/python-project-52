@@ -1,5 +1,6 @@
 from django import forms
 from .models import Label
+from django.utils.translation import gettext_lazy as _
 
 
 class LabelForm(forms.ModelForm):
@@ -11,7 +12,7 @@ class LabelForm(forms.ModelForm):
         }
         error_messages = {
             'name': {
-                'unique': 'Label with this name already exists',
-                'required': 'This field is required'
+                'unique': _('Label with this name already exists'),
+                'required': _('This field is required')
             }
         }

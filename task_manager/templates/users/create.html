@@ -1,14 +1,15 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load django_bootstrap5 %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{% translate "Register" %}{% endblock %}
 
 {% block content %}
-  <h1 class="my-4">Register</h1>
+  <h1 class="my-4">{% translate "Register" %}</h1>
 
   <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="btn btn-primary">{% translate "Register" %}</button>
   </form>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django import forms
 from .models import Status
+from django.utils.translation import gettext_lazy as _
 
 
 class StatusForm(forms.ModelForm):
@@ -8,16 +9,16 @@ class StatusForm(forms.ModelForm):
         fields = ['name']
         error_messages = {
             'name': {
-                'unique': 'Status with this name already exists',
-                'required': 'This field is required'
+                'unique': _('Status with this name already exists'),
+                'required': _('This field is required')
             }
         }
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Name'
+                'placeholder': _('Name')
             })
         }
         labels = {
-            'name': 'Name'
+            'name': _('Name')
         }

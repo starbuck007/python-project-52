@@ -1,5 +1,6 @@
 from django import forms
 from .models import Task
+from django.utils.translation import gettext_lazy as _
 
 
 class TaskForm(forms.ModelForm):
@@ -15,12 +16,15 @@ class TaskForm(forms.ModelForm):
                                                   'multiple': 'multiple'}),
         }
         labels = {
-            'executor': 'User',
-            'labels': 'Labels'
+            'name': _('Name'),
+            'description': _('Description'),
+            'status': _('Status'),
+            'executor': _('User'),
+            'labels': _('Labels')
         }
         error_messages = {
             'name': {
-                'unique': 'Task with this name already exists',
-                'required': 'This field is required'
+                'unique': _('Task with this name already exists'),
+                'required': _('This field is required')
             }
         }

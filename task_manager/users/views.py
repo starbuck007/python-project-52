@@ -9,6 +9,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from .forms import CustomUserCreationForm, UserUpdateForm
 from django.contrib.auth import logout
+from django.utils.translation import gettext_lazy as _
 from task_manager.mixins import CustomLoginRequiredMixin
 from django.db.models import ProtectedError
 
@@ -25,7 +26,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     form_class = CustomUserCreationForm
     template_name = 'users/create.html'
     success_url = reverse_lazy('login')
-    success_message = 'User was successfully registered'
+    success_message = _('User was successfully registered')
 
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
@@ -35,7 +36,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
     form_class = UserUpdateForm
     template_name = 'users/update.html'
     success_url = reverse_lazy('user_list')
-    success_message = 'User was successfully updated'
+    success_message = _('User was successfully updated')
 
     def test_func(self):
         """Handles the test_func view logic."""
@@ -44,16 +45,17 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
     def handle_no_permission(self):
         """Handles the handle_no_permission view logic."""
         messages.error(self.request,
-                       "You don't have permission to change another user.")
+                       _("You don't have permission to change another user."))
         return redirect('user_list')
 
 
 class UserDeleteView(CustomLoginRequiredMixin, DeleteView):
     """Class representing UserDeleteView logic."""
     model = User
-    template_name = 'delete.html'
+    template_name = 'users/delete.html'
     success_url = reverse_lazy('user_list')
-    permission_denied_message = "You don't have permission to delete another user."
+    permission_denied_message = _("You don't have permission to delete another "
+                                  "user.")
 
     def test_func(self):
         """Handles the test_func view logic."""
@@ -66,7 +68,7 @@ class UserDeleteView(CustomLoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = 'User'
+        context['object_type'] = _('User')
         context['object_name'] = self.object.get_full_name() or self.object.username
         context['cancel_url'] = reverse_lazy('user_list')
         return context
@@ -82,12 +84,12 @@ class UserDeleteView(CustomLoginRequiredMixin, DeleteView):
         try:
             self.object.delete()
             messages.success(self.request,
-                             'User was successfully deleted')
+                             _('User was successfully deleted'))
             logout(request)
-            messages.info(request, 'You are logged out')
+            messages.info(request, _('You are logged out'))
             return redirect('home')
 
         except ProtectedError:
             messages.error(self.request,
-                           'Cannot delete a user because it is in use')
+                           _('Cannot delete a user because it is in use'))
             return redirect('user_list')

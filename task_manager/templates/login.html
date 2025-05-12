@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
-  <h1>Log in</h1>
+  <h1>{% translate "Log in" %}</h1>
   <form method="post">
     {% csrf_token %}
     <div class="mb-3">
-      <label for="id_username" class="form-label">Username</label>
+      <label for="id_username" class="form-label">{% translate "Username" %}</label>
       <input type="text" name="username" class="form-control" id="id_username">
     </div>
     <div class="mb-3">
-      <label for="id_password" class="form-label">Password</label>
+      <label for="id_password" class="form-label">{% translate "Password" %}</label>
       <input type="password" name="password" class="form-control" id="id_password">
     </div>
-    <button type="submit" class="btn btn-primary">Log in</button>
+    <button type="submit" class="btn btn-primary">{% translate "Log in" %}</button>
   </form>
 {% endblock %}

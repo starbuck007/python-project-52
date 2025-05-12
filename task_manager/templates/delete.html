@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
-<h1>Delete {{ object_type }}</h1>
+<h1>{% translate "Delete" %} {{ object_type }}</h1>
 
 <div class="card">
   <div class="card-body">
-    <p>Are you sure you want to delete {{ object_name }}?</p>
+    <p>{% translate "Are you sure you want to delete" %} {{ object_name }}?</p>
     
     <form method="post">
       {% csrf_token %}
-      <button type="submit" class="btn btn-danger">Delete</button>
-      <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
+      <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
+      <a href="{{ cancel_url }}" class="btn btn-secondary">{% translate "Cancel" %}</a>
     </form>
   </div>
 </div>

@@ -10,6 +10,7 @@ from .forms import TaskForm
 from task_manager.statuses.models import Status
 from task_manager.labels.models import Label
 from task_manager.mixins import CustomLoginRequiredMixin
+from django.utils.translation import gettext_lazy as _
 
 
 class TaskListView(CustomLoginRequiredMixin, ListView):
@@ -46,7 +47,7 @@ class TaskCreateView(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = TaskForm
     template_name = 'tasks/form.html'
     success_url = reverse_lazy('task_list')
-    success_message = 'Task was successfully created'
+    success_message = _('Task was successfully created')
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -56,8 +57,8 @@ class TaskCreateView(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Create Task'
-        context['button_text'] = 'Create'
+        context['title'] = _('Create Task')
+        context['button_text'] = _('Create')
         return context
 
 
@@ -66,12 +67,12 @@ class TaskUpdateView(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = TaskForm
     template_name = 'tasks/form.html'
     success_url = reverse_lazy('task_list')
-    success_message = 'Task was successfully updated'
+    success_message = _('Task was successfully updated')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edit Task'
-        context['button_text'] = 'Update'
+        context['title'] = _('Edit Task')
+        context['button_text'] = _('Update')
         return context
 
     def form_valid(self, form):
@@ -84,7 +85,7 @@ class TaskDeleteView(CustomLoginRequiredMixin, DeleteView):
     model = Task
     template_name = 'delete.html'
     success_url = reverse_lazy('task_list')
-    permission_denied_message = ("You don't have permission to delete this task."
+    permission_denied_message = _("You don't have permission to delete this task."
                                  " Only the task creator can delete it.")
 
     def test_func(self):
@@ -97,7 +98,7 @@ class TaskDeleteView(CustomLoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = 'Task'
+        context['object_type'] = _('Task')
         context['object_name'] = self.object.name
         context['cancel_url'] = reverse_lazy('task_list')
         return context
@@ -110,7 +111,7 @@ class TaskDeleteView(CustomLoginRequiredMixin, DeleteView):
             return redirect('task_list')
         try:
             self.object.delete()
-            messages.success(request, 'Task was successfully deleted')
+            messages.success(request, _('Task was successfully deleted'))
             return redirect('task_list')
         except Exception as e:
             messages.error(request, f'Error deleting task: {str(e)}')

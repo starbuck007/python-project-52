@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
-  <h1>Statuses</h1>
-  <a href="{% url 'status_create' %}" class="btn btn-primary">Create New Status</a>
+  <h1>{% translate "Statuses" %}</h1>
+  <a href="{% url 'status_create' %}" class="btn btn-primary">{% translate "Create New Status" %}</a>
   <table class="table mt-3">
     <thead>
       <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Created At</th>
+        <th>{% translate "Name" %}</th>
+        <th>{% translate "Created At" %}</th>
         <th></th>
       </tr>
     </thead>
@@ -19,8 +19,8 @@
           <td>{{ status.name }}</td>
           <td>{{ status.created_at|date:"d.m.Y H:i" }}</td>
           <td>
-            <a href="{% url 'status_update' status.id %}" class="text-primary d-block">Edit</a>
-            <a href="{% url 'status_delete' status.id %}" class="text-danger d-block">Delete</a>
+            <a href="{% url 'status_update' status.id %}" class="text-primary d-block">{% translate "Edit" %}</a>
+            <a href="{% url 'status_delete' status.id %}" class="text-danger d-block">{% translate "Delete" %}</a>
           </td>
         </tr>
       {% endfor %}

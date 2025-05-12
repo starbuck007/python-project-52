@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
-  <h1>Labels</h1>
+  <h1>{% translate "Labels" %}</h1>
   
-  <a href="{% url 'label_create' %}" class="btn btn-primary mb-3">Create New Label</a>
+  <a href="{% url 'label_create' %}" class="btn btn-primary mb-3">{% translate "Create New Label" %}</a>
   
   <table class="table">
     <thead>
       <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Created At</th>
+        <th>{% translate "Name" %}</th>
+        <th>{% translate "Created At" %}</th>
         <th></th>
       </tr>
     </thead>
@@ -21,8 +21,8 @@
           <td>{{ label.name }}</td>
           <td>{{ label.created_at|date:"d.m.Y H:i" }}</td>
           <td>
-            <a href="{% url 'label_update' label.id %}" class="text-primary d-block">Edit</a>
-            <a href="{% url 'label_delete' label.id %}" class="text-danger d-block">Delete</a>
+            <a href="{% url 'label_update' label.id %}" class="text-primary d-block">{% translate "Edit" %}</a>
+            <a href="{% url 'label_delete' label.id %}" class="text-danger d-block">{% translate "Delete" %}</a>
           </td>
         </tr>
       {% endfor %}

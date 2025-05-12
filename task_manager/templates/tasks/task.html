@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
-<h1>Task View</h1>
+<h1>{% translate "Task View" %}</h1>
 
 <div class="card">
   <div class="card-header bg-secondary text-white">
@@ -14,7 +14,7 @@
 
       <div class="row">
         <div class="col-md-3">
-          <p>Author</p>
+          <p>{% translate "Author" %}</p>
         </div>
         <div class="col-md-9">
           <p>{{ task.creator }}</p>
@@ -23,7 +23,7 @@
 
       <div class="row">
         <div class="col-md-3">
-          <p>Executor</p>
+          <p>{% translate "Executor" %}</p>
         </div>
         <div class="col-md-9">
           <p>{{ task.executor|default:"None" }}</p>
@@ -32,7 +32,7 @@
 
       <div class="row">
         <div class="col-md-3">
-          <p>Status</p>
+          <p>{% translate "Status" %}</p>
         </div>
         <div class="col-md-9">
           <p>{{ task.status }}</p>
@@ -41,7 +41,7 @@
 
       <div class="row">
         <div class="col-md-3">
-          <p>Created at</p>
+          <p>{% translate "Created at" %}</p>
         </div>
         <div class="col-md-9">
           <p>{{ task.created_at|date:"d.m.Y H:i" }}</p>
@@ -66,8 +66,8 @@
       <div class="row mt-3">
         <div class="col">
           <div class="d-flex flex-column">
-          <a href="{% url 'task_update' task.id %}" class="text-primary me-3">Edit</a>
-          <a href="{% url 'task_delete' task.id %}" class="text-danger">Delete</a>
+          <a href="{% url 'task_update' task.id %}" class="text-primary me-3">{% translate "Edit" %}</a>
+          <a href="{% url 'task_delete' task.id %}" class="text-danger">{% translate "Delete" %}</a>
           </div>
         </div>
       </div>
