@@ -7,8 +7,22 @@ from django.utils.translation import gettext_lazy as _
 
 class CustomUserCreationForm(UserCreationForm):
     """Class representing CustomUserCreationForm logic."""
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
+    first_name = forms.CharField(
+        required=True,
+        label=_('First name'),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': _('First name')
+        })
+    )
+    last_name = forms.CharField(
+        required=True,
+        label=_('Last name'),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': _('Last name')
+        })
+    )
 
     class Meta:
         """Class representing Meta logic."""
