@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-13 20:00+0400\n"
+"POT-Creation-Date: 2025-05-13 20:19+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -203,8 +203,8 @@ msgstr "Задачи"
 msgid "Log out"
 msgstr "Выход"
 
-#: task_manager/templates/base.html:29 task_manager/templates/login.html:5
-#: task_manager/templates/login.html:16
+#: task_manager/templates/base.html:29
+msgctxt "navigation"
 msgid "Log in"
 msgstr "Вход"
 
@@ -243,6 +243,11 @@ msgstr "Создать метку"
 msgid "Created At"
 msgstr "Дата создания"
 
+#| msgctxt "navigation"
+#| msgid "Log in"
+msgid "Log in"
+msgstr "Вход"
+
 #: task_manager/templates/login.html:9 task_manager/templates/login.html:10
 #: task_manager/templates/users/update.html:34
 #: task_manager/templates/users/users.html:11
@@ -253,6 +258,11 @@ msgstr "Имя пользователя"
 #: task_manager/users/forms.py:44 task_manager/users/forms.py:47
 msgid "Password"
 msgstr "Пароль"
+
+#: task_manager/templates/login.html:16
+msgctxt "button"
+msgid "Log in"
+msgstr "Войти"
 
 #: task_manager/templates/statuses/statuses.html:5
 msgid "Create New Status"
