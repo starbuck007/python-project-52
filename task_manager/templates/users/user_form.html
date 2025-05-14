@@ -5,9 +5,11 @@
 {% block content %}
   <h1>{{ title }}</h1>
 
-  <form method="post">
+  <form method="post" novalidate>
     {% csrf_token %}
+
     {% bootstrap_form form %}
+
     <button type="submit" class="btn btn-primary">{{ button_text }}</button>
   </form>
 {% endblock %}

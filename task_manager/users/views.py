@@ -24,26 +24,19 @@ class UserListView(ListView):
 class UserCreateView(SuccessMessageMixin, CreateView):
     """Class representing UserCreateView logic."""
     form_class = CustomUserCreationForm
-    template_name = 'users/user_form.html'
+    template_name = 'users/create.html'
     success_url = reverse_lazy('login')
     success_message = _('User was successfully registered')
 
-    def get_context_data(self, **kwargs):
-        """Add title and button text to context."""
-        context = super().get_context_data(**kwargs)
-        context['title'] = _('Register')
-        context['button_text'] = _('Register')
-        return context
 
-
-class UserUpdateView(SuccessMessageMixin, LoginRequiredMixin,
-                     UserPassesTestMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
+                     SuccessMessageMixin, UpdateView):
     """Class representing UserUpdateView logic."""
     model = User
     form_class = UserUpdateForm
-    template_name = 'users/user_form.html'
+    template_name = 'users/update.html'
     success_url = reverse_lazy('user_list')
-    # success_message = _('User was successfully updated')
+    success_message = _('User was successfully updated')
 
     def test_func(self):
         """Handles the test_func view logic."""
@@ -54,22 +47,6 @@ class UserUpdateView(SuccessMessageMixin, LoginRequiredMixin,
         messages.error(self.request,
                        _("You don't have permission to change another user."))
         return redirect('user_list')
-
-    def get_context_data(self, **kwargs):
-        """Add title and button text to context."""
-        context = super().get_context_data(**kwargs)
-        context['title'] = _('Edit user')
-        context['button_text'] = _('Update')
-        return context
-
-    def form_valid(self, form):
-        """Handle form validation."""
-        messages.success(self.request, _('User successfully changed'))
-        user = form.save()
-        if 'password1' in form.cleaned_data and form.cleaned_data['password1']:
-            logout(self.request)
-            return redirect(self.success_url)
-        return super().form_valid(form)
 
 
 class UserDeleteView(CustomLoginRequiredMixin, DeleteView):
@@ -90,11 +67,9 @@ class UserDeleteView(CustomLoginRequiredMixin, DeleteView):
         return redirect('user_list')
 
     def get_context_data(self, **kwargs):
-        """Handles the get_context_data view logic."""
         context = super().get_context_data(**kwargs)
         context['object_type'] = _('User')
-        context['object_name'] = (self.object.get_full_name()
-                                  or self.object.username)
+        context['object_name'] = self.object.get_full_name() or self.object.username
         context['cancel_url'] = reverse_lazy('user_list')
         return context
 
