@@ -47,7 +47,7 @@ class UserUpdateForm(forms.ModelForm):
         'placeholder': _('Password')
     }),
         help_text=_('Password must be at least 3 characters long'),
-        required=False
+        required=True
     )
     password2 = forms.CharField(
         label=_('Confirm password'),
@@ -56,7 +56,7 @@ class UserUpdateForm(forms.ModelForm):
         'placeholder': _('Confirm password')
     }),
         help_text=_('Please enter the same password again.'),
-        required=False
+        required=True
     )
 
     class Meta:
@@ -69,10 +69,14 @@ class UserUpdateForm(forms.ModelForm):
         cleaned_data = super().clean()
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
-        if password1 or password2:
+
+        if (password1 and not password2) or (not password1 and password2):
+            raise forms.ValidationError(_('Both password fields are required'))
+
+        if password1  and password2:
             if password1 != password2:
                 raise forms.ValidationError(_('Passwords do not match'))
-            if password1 and len(password1) < 3:
+            if len(password1) < 3:
                 raise forms.ValidationError(_('Password must be at least 3 '
                                               'characters long'))
         return cleaned_data
