@@ -88,7 +88,7 @@ class UserDeleteView(CustomLoginRequiredMixin, UserOwnershipRequiredMixin,
                              _('User was successfully deleted'))
             logout(request)
             messages.info(request, _('You are logged out'))
-            return redirect('home')
+            return redirect('user_list')
         except ProtectedError:
             messages.error(self.request,
                            _('Cannot delete a user because it is in use'))
