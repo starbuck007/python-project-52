@@ -16,4 +16,3 @@ dist/
 .DS_Store
 .python-version.env
 /temp_backup/
-/locale/ru/LC_MESSAGES/django.mo
