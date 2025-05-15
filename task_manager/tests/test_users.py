@@ -94,7 +94,7 @@ class UserTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.count(), users_count_before - 1)
         self.assertFalse(User.objects.filter(username='darth_vader').exists())
-        self.assertRedirects(response, reverse('home'))
+        self.assertRedirects(response, reverse('user_list'))
 
     def test_user_delete_forbidden(self):
         """Users cannot delete other users."""
