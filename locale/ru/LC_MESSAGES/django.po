@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-14 23:50+0400\n"
+"POT-Creation-Date: 2025-05-16 20:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -217,7 +217,7 @@ msgctxt "navigation"
 msgid "Register"
 msgstr "Регистрация"
 
-#: task_manager/templates/delete.html:5 task_manager/templates/delete.html:13
+#: task_manager/templates/delete.html:5
 #: task_manager/templates/labels/labels.html:25
 #: task_manager/templates/statuses/statuses.html:23
 #: task_manager/templates/tasks/task.html:70
@@ -230,6 +230,11 @@ msgstr "Удалить"
 #: task_manager/templates/users/delete.html:6
 msgid "Are you sure you want to delete"
 msgstr "Вы уверены, что хотите удалить"
+
+#: task_manager/templates/delete.html:13
+#: task_manager/templates/users/delete.html:10
+msgid "Yes, delete"
+msgstr "Да, удалить"
 
 #: task_manager/templates/delete.html:14
 #: task_manager/templates/users/delete.html:11
@@ -304,10 +309,6 @@ msgstr "Задачи не найдены"
 #: task_manager/templates/users/delete.html:4
 msgid "Delete user"
 msgstr "Удаление пользователя"
-
-#: task_manager/templates/users/delete.html:10
-msgid "Yes, delete"
-msgstr "Да, удалить"
 
 #: task_manager/templates/users/users.html:12
 msgid "Full name"
