@@ -19,7 +19,7 @@ class TaskForm(forms.ModelForm):
             'name': _('Name'),
             'description': _('Description'),
             'status': _('Status'),
-            'executor': _('User'),
+            'executor': _('Executor'),
             'labels': _('Labels')
         }
         error_messages = {

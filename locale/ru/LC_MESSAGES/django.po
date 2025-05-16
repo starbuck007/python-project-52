@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-16 20:46+0000\n"
+"POT-Creation-Date: 2025-05-16 20:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -138,8 +138,10 @@ msgstr "Невозможно удалить статус, потому что о
 msgid "Description"
 msgstr "Описание"
 
-#: task_manager/tasks/forms.py:22 task_manager/users/views.py:75
-msgid "User"
+#: task_manager/tasks/forms.py:22 task_manager/templates/tasks/task.html:26
+#: task_manager/templates/tasks/tasks.html:21
+#: task_manager/templates/tasks/tasks.html:59
+msgid "Executor"
 msgstr "Исполнитель"
 
 #: task_manager/tasks/forms.py:23 task_manager/templates/base.html:21
@@ -282,12 +284,6 @@ msgstr "Задача"
 msgid "Author"
 msgstr "Автор"
 
-#: task_manager/templates/tasks/task.html:26
-#: task_manager/templates/tasks/tasks.html:21
-#: task_manager/templates/tasks/tasks.html:59
-msgid "Executor"
-msgstr "Исполнитель"
-
 #: task_manager/templates/tasks/task.html:44
 #: task_manager/templates/tasks/tasks.html:60
 #: task_manager/templates/users/users.html:13
@@ -365,6 +361,10 @@ msgstr "Изменение пользователя"
 #: task_manager/users/views.py:57
 msgid "User was successfully changed"
 msgstr "Пользователь успешно изменен"
+
+#: task_manager/users/views.py:75
+msgid "User"
+msgstr "Исполнитель"
 
 #: task_manager/users/views.py:88
 msgid "User was successfully deleted"
