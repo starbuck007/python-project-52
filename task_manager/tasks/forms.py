@@ -33,7 +33,12 @@ class TaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if 'executor' in self.fields:
-            self.fields['executor'].required = False
-            self.fields['executor'].label_from_instance = lambda \
-                obj: f"{obj.first_name} {obj.last_name}"
+        self.fields['executor'].label = _('Executor')
+        self.fields['executor'].required = False
+        self.fields['executor'].queryset = User.objects.all()
+        self.fields['executor'].label_from_instance = lambda \
+            user: user.get_full_name() or user.username
+        self.fields['executor'].widget.attrs.update(
+            {'id': 'id_executor', 'class': 'form-control'})
+        if self.instance and self.instance.pk and self.instance.executor:
+            self.initial['executor'] = self.instance.executor.id
