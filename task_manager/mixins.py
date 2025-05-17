@@ -21,5 +21,8 @@ class UserOwnershipRequiredMixin(UserPassesTestMixin):
         return self.request.user.pk == self.get_object().pk
 
     def handle_no_permission(self):
+        storage = messages.get_messages(self.request)
+        for _ in storage:
+            pass
         messages.error(self.request, self.permission_denied_message)
         return redirect('user_list')
