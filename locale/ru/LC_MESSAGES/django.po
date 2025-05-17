@@ -73,7 +73,7 @@ msgstr "Вы не авторизованы! Пожалуйста, выполни
 
 #: task_manager/mixins.py:18
 msgid "You don't have permission to modify another user"
-msgstr "У вас нет прав для удаления другого пользователя."
+msgstr "У вас нет прав для изменения"
 
 #: task_manager/settings.py:84
 msgid "English"
