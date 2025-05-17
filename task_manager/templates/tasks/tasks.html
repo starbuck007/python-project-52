@@ -22,7 +22,7 @@
           <select name="executor" id="id_executor" class="form-select">
             <option value="">---------</option>
             {% for user in users %}
-              <option value="{{ user.id }}" {% if request.GET.executor == user.id|stringformat:"i" %}selected{% endif %}>{{ user.username }}</option>
+              <option value="{{ user.id }}" {% if request.GET.executor == user.id|stringformat:"i" %}selected{% endif %}>{{ user.get_full_name|default:user.username }}</option>
             {% endfor %}
           </select>
         </div>
