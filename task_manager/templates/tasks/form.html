@@ -47,7 +47,9 @@
     <select name="executor" class="form-control" id="id_executor">
       <option value="">---------</option>
       {% for value, text in form.executor.field.choices %}
+      {% if value %}
         <option value="{{ value }}"{% if value == form.executor.value|stringformat:"i" %} selected{% endif %}>{{ text }}</option>
+      {% endif %}
       {% endfor %}
     </select>
     {% if form.executor.errors %}

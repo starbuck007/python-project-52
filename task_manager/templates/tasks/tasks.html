@@ -68,7 +68,7 @@
           <td><a href="{% url 'task_detail' task.id %}">{{ task.name }}</a></td>
           <td>{{ task.status.name }}</td>
           <td>{{ task.creator.get_full_name|default:task.creator.username }}</td>
-          <td>{{ task.executor.get_full_name|default:task.executor.username|default:'-' }}</td>
+          <td>{% if task.executor %}{{ task.executor.get_full_name|default:task.executor.username }}{% endif %}</td>
           <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
           <td>
             <a href="{% url 'task_update' task.id %}" class="text-primary d-block">{% translate "Edit" %}</a>

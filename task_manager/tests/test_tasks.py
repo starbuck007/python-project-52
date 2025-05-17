@@ -78,7 +78,7 @@ class TaskTestCase(BaseTestCase):
         self.assertTrue(
             Task.objects.filter(name='Task Without Executor').exists())
         task = Task.objects.get(name='Task Without Executor')
-        self.assertEqual(task.executor, self.user)
+        self.assertIsNone(task.executor)
         self.assertEqual(task.creator, self.user)
 
     def test_task_create_with_labels(self):
@@ -154,7 +154,7 @@ class TaskTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.task1.refresh_from_db()
-        self.assertEqual(self.task1.executor, self.user)
+        self.assertIsNone(self.task1.executor)
         self.assertEqual(self.task1.name, 'Updated Task')
 
     def test_task_delete_by_author(self):

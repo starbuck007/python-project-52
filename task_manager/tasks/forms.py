@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django import forms
 from .models import Task
 from django.utils.translation import gettext_lazy as _
@@ -33,6 +34,5 @@ class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if 'executor' in self.fields:
-            self.fields['executor'].empty_label = "---------"
-            from django.contrib.auth.models import User
+            self.fields['executor'].required = False
             self.fields['executor'].queryset = User.objects.all()

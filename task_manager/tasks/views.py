@@ -57,8 +57,6 @@ class TaskCreateView(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
-        if not form.instance.executor:
-            form.instance.executor = self.request.user
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -82,8 +80,6 @@ class TaskUpdateView(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        if not form.instance.executor:
-            form.instance.executor = self.request.user
         return super().form_valid(form)
 
 
