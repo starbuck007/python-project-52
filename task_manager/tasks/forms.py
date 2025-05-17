@@ -11,7 +11,8 @@ class TaskForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
-            'executor': forms.Select(attrs={'class': 'form-control'}),
+            'executor': forms.Select(attrs={'class': 'form-control',
+                                            'id': 'id_executor'}),
             'labels': forms.SelectMultiple(attrs={'class': 'form-control',
                                                   'multiple': 'multiple'}),
         }
