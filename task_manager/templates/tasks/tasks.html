@@ -54,6 +54,7 @@
       <tr>
         <th>ID</th>
         <th>{% translate "Name" %}</th>
+        <th>{% translate "Description" %}</th>
         <th>{% translate "Status" %}</th>
         <th>{% translate "Author" %}</th>
         <th>{% translate "Executor" %}</th>
@@ -66,6 +67,7 @@
         <tr>
           <td>{{ task.id }}</td>
           <td><a href="{% url 'task_detail' task.id %}">{{ task.name }}</a></td>
+          <td>{{ task.description }}</td>
           <td>{{ task.status.name }}</td>
           <td>{{ task.creator.get_full_name|default:task.creator.username }}</td>
           <td>{% if task.executor %}{{ task.executor.get_full_name|default:task.executor.username }}{% endif %}</td>
@@ -77,7 +79,7 @@
         </tr>
       {% empty %}
         <tr>
-          <td colspan="7" class="text-center">{% translate "No tasks found" %}</td>
+          <td colspan="8" class="text-center">{% translate "No tasks found" %}</td>
         </tr>
       {% endfor %}
     </tbody>
