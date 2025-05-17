@@ -22,7 +22,7 @@
           <p>{% translate "Author" %}</p>
         </div>
         <div class="col-md-9">
-          <p>{{ task.creator }}</p>
+          <p>{{ task.creator.get_full_name|default:task.creator.username }}</p>
         </div>
       </div>
 
@@ -31,7 +31,7 @@
           <p>{% translate "Executor" %}</p>
         </div>
         <div class="col-md-9">
-          <p>{{ task.executor|default:"None" }}</p>
+          <p>{% if task.executor %}{{ task.executor.get_full_name|default:task.executor.username }}{% else %}None{% endif %}</p>
         </div>
       </div>
 
