@@ -49,6 +49,12 @@ class TaskCreateView(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('task_list')
     success_message = _('Task was successfully created')
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        if 'executor' in form.fields:
+            form.fields['executor'].queryset = User.objects.all()
+        return form
+
     def form_valid(self, form):
         form.instance.creator = self.request.user
         if not form.instance.executor:

@@ -44,7 +44,12 @@
 
   <div class="mb-3">
     <label for="id_executor" class="form-label">{{ form.executor.label }}</label>
-    {{ form.executor }}
+    <select name="executor" class="form-control" id="id_executor">
+      <option value="">---------</option>
+      {% for value, text in form.executor.field.choices %}
+        <option value="{{ value }}"{% if value == form.executor.value|stringformat:"i" %} selected{% endif %}>{{ text }}</option>
+      {% endfor %}
+    </select>
     {% if form.executor.errors %}
       <div class="invalid-feedback d-block">
         {% for error in form.executor.errors %}
@@ -54,7 +59,7 @@
     {% endif %}
   </div>
 
-<div class="mb-3">
+  <div class="mb-3">
     <label for="{{ form.labels.id_for_label }}" class="form-label">{{ form.labels.label }}</label>
     {{ form.labels }}
     {% if form.labels.errors %}

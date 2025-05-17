@@ -29,3 +29,10 @@ class TaskForm(forms.ModelForm):
                 'required': _('This field is required')
             }
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'executor' in self.fields:
+            self.fields['executor'].empty_label = "---------"
+            from django.contrib.auth.models import User
+            self.fields['executor'].queryset = User.objects.all()
