@@ -90,13 +90,13 @@ class TaskDeleteView(CustomLoginRequiredMixin, DeleteView):
     permission_denied_message = _("You don't have permission to delete this task."
                                  " Only the task creator can delete it.")
 
-    def test_func(self):
-        task = self.get_object()
-        return self.request.user == task.creator
-
-    def handle_no_permission(self):
-        messages.error(self.request, self.permission_denied_message)
-        return redirect('task_list')
+    # def test_func(self):
+    #     task = self.get_object()
+    #     return self.request.user == task.creator
+    #
+    # def handle_no_permission(self):
+    #     messages.error(self.request, self.permission_denied_message)
+    #     return redirect('task_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -105,19 +105,30 @@ class TaskDeleteView(CustomLoginRequiredMixin, DeleteView):
         context['cancel_url'] = reverse_lazy('task_list')
         return context
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
+    # def post(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #
+    #     if self.request.user != self.object.creator:
+    #         messages.error(self.request, self.permission_denied_message)
+    #         return redirect('task_list')
+    #     try:
+    #         self.object.delete()
+    #         messages.success(request, _('Task was successfully deleted'))
+    #         return redirect('task_list')
+    #     except Exception as e:
+    #         messages.error(request, f'Error deleting task: {str(e)}')
+    #         return redirect('task_list')
 
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
         if self.request.user != self.object.creator:
             messages.error(self.request, self.permission_denied_message)
             return redirect('task_list')
-        try:
-            self.object.delete()
-            messages.success(request, _('Task was successfully deleted'))
-            return redirect('task_list')
-        except Exception as e:
-            messages.error(request, f'Error deleting task: {str(e)}')
-            return redirect('task_list')
+        return super().dispatch(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, _('Task was successfully deleted'))
+        return super().delete(request, *args, **kwargs)
 
 
 class TaskDetailView(CustomLoginRequiredMixin, DetailView):
