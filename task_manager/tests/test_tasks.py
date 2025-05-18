@@ -42,6 +42,22 @@ class TaskTestCase(BaseTestCase):
     def test_task_create(self):
         """Test creating a new task."""
         self.login_user()
+
+        invalid_data = {
+            'name': '',
+            'description': 'Invalid test',
+            'status': self.status1.id,
+        }
+        response = self.client.post(
+            reverse('task_create'),
+            invalid_data,
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['form'].errors)
+        self.assertFalse(
+            Task.objects.filter(description='Invalid test').exists())
+
         task_data = {
             'name': 'New Test Task',
             'description': 'New Test Description',
@@ -60,6 +76,9 @@ class TaskTestCase(BaseTestCase):
         self.assertEqual(task.executor, self.user2)
         self.assertEqual(task.description, 'New Test Description')
         self.assertEqual(task.status, self.status1)
+
+        messages = list(response.context['messages'])
+        self.assertTrue(any(message.tags == 'success' for message in messages))
 
     def test_task_create_without_executor(self):
         """Test creating a task without executor."""
@@ -117,6 +136,28 @@ class TaskTestCase(BaseTestCase):
 
         self.task1.labels.add(label1, label2)
 
+        invalid_update = {
+            'name': '',
+            'description': self.task1.description,
+            'status': self.task1.status.id,
+            'executor': self.task1.executor.id,
+            'labels': [label2.id, label3.id]
+        }
+
+        response = self.client.post(
+            reverse('task_update', kwargs={'pk': self.task1.pk}),
+            invalid_update,
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['form'].errors)
+
+        self.task1.refresh_from_db()
+        self.assertEqual(self.task1.labels.count(), 2)
+        self.assertTrue(self.task1.labels.filter(name='Label 1').exists())
+        self.assertTrue(self.task1.labels.filter(name='Label 2').exists())
+
         update_data = {
             'name': self.task1.name,
             'description': self.task1.description,
@@ -137,6 +178,9 @@ class TaskTestCase(BaseTestCase):
         self.assertFalse(self.task1.labels.filter(name='Label 1').exists())
         self.assertTrue(self.task1.labels.filter(name='Label 2').exists())
         self.assertTrue(self.task1.labels.filter(name='Label 3').exists())
+
+        messages = list(response.context['messages'])
+        self.assertTrue(any(message.tags == 'success' for message in messages))
 
     def test_task_update_no_executor(self):
         """Test updating a task without executor."""
@@ -167,15 +211,32 @@ class TaskTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(Task.objects.filter(pk=self.task1.pk).exists())
 
+        messages = list(response.context['messages'])
+        self.assertTrue(any(message.tags == 'success' for message in messages))
+
     def test_task_delete_by_not_author(self):
-        """Test that non-author cannot delete task."""
+        """Test that non-author can't delete task."""
         self.login_user()
+
+        response = self.client.get(
+            reverse('task_delete', kwargs={'pk': self.task2.pk})
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('task_list'))
+
+        response = self.client.get(response.url, follow=True)
+        messages = list(response.context['messages'])
+        self.assertTrue(any(message.tags == 'error' for message in messages))
+
         response = self.client.post(
             reverse('task_delete', kwargs={'pk': self.task2.pk}),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Task.objects.filter(pk=self.task2.pk).exists())
+
+        messages = list(response.context['messages'])
+        self.assertTrue(any(message.tags == 'error' for message in messages))
 
     def test_task_list_with_filter(self):
         """Test task list filtering."""
@@ -259,11 +320,19 @@ class TaskTestCase(BaseTestCase):
     def test_task_detail_view(self):
         """Test task detail view."""
         self.login_user()
+
+        label1 = Label.objects.create(name='Detail Label 1')
+        label2 = Label.objects.create(name='Detail Label 2')
+        self.task1.labels.add(label1, label2)
+
         response = self.client.get(
             reverse('task_detail', kwargs={'pk': self.task1.pk})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['task'], self.task1)
+        self.assertEqual(response.context['task'].labels.count(), 2)
+        self.assertContains(response, 'Detail Label 1')
+        self.assertContains(response, 'Detail Label 2')
 
     def test_unauthorized_access(self):
         """Unauthorized users are redirected to login."""

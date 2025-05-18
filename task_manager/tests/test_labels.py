@@ -48,6 +48,5 @@ class LabelTestCase(BaseTestCase, CRUDTestMixin):
             reverse('label_delete', kwargs={'pk': self.label.pk}),
             follow=True
         )
-
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Label.objects.filter(pk=self.label.pk).exists())
