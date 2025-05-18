@@ -73,7 +73,7 @@ class UserUpdateForm(forms.ModelForm):
         if (password1 and not password2) or (not password1 and password2):
             raise forms.ValidationError(_('Both password fields are required'))
 
-        if password1  and password2:
+        if password1 and password2:
             if password1 != password2:
                 raise forms.ValidationError(_('Passwords do not match'))
             if len(password1) < 3:
