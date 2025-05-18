@@ -15,6 +15,7 @@ dependencies = [
     "coverage",
     "rollbar",
     "flake8",
+    "ruff"
 ]
 requires-python = ">=3.10"
 
@@ -24,3 +25,16 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["task_manager*", "staticfiles*"]
+
+[tool.ruff]
+select = ["E", "F"]
+line-length = 80
+src = ["task_manager/"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "venv",
+    ".env",
+    "*/migrations/*",
+]
+ignore = []

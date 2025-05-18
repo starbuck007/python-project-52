@@ -28,3 +28,9 @@ test-coverage:
 
 cov:
 	uv run coverage xml
+
+lint:
+	uv run ruff check task_manager/
+
+fix:
+	uv run ruff check --fix task_manager/

@@ -15,7 +15,11 @@ class LabelListView(CustomLoginRequiredMixin, ListView):
     context_object_name = 'labels'
 
 
-class LabelCreateView(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView):
+class LabelCreateView(
+    CustomLoginRequiredMixin,
+    SuccessMessageMixin,
+    CreateView
+):
     model = Label
     form_class = LabelForm
     template_name = 'labels/form.html'
@@ -29,7 +33,11 @@ class LabelCreateView(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView)
         return context
 
 
-class LabelUpdateView(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class LabelUpdateView(
+    CustomLoginRequiredMixin,
+    SuccessMessageMixin,
+    UpdateView
+):
     model = Label
     form_class = LabelForm
     template_name = 'labels/form.html'

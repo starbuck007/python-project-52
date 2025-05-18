@@ -87,8 +87,9 @@ class TaskDeleteView(CustomLoginRequiredMixin, DeleteView):
     model = Task
     template_name = 'delete.html'
     success_url = reverse_lazy('task_list')
-    permission_denied_message = _("You don't have permission to delete this task."
-                                 " Only the task creator can delete it.")
+    permission_denied_message = _("You don't have permission to delete"
+                                  "this task. Only the task creator can "
+                                  "delete it.")
 
     # def test_func(self):
     #     task = self.get_object()

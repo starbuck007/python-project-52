@@ -22,8 +22,8 @@ def login_view(request):
             return redirect('home')
         else:
             messages.error(request, _('Please enter a correct username '
-                                    'and password. Note that both fields may be '
-                                    'case-sensitive.'))
+                                    'and password. Note that both fields '
+                                      'may be case-sensitive.'))
 
     return render(request, 'login.html')
 

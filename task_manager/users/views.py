@@ -55,7 +55,7 @@ class UserUpdateView(SuccessMessageMixin, LoginRequiredMixin,
     def form_valid(self, form):
         """Handle form validation."""
         messages.success(self.request, _('User was successfully changed'))
-        user = form.save()
+        form.save()
         if 'password1' in form.cleaned_data and form.cleaned_data['password1']:
             logout(self.request)
             return redirect(self.success_url)
