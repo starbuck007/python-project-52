@@ -126,9 +126,11 @@ class TaskDeleteView(CustomLoginRequiredMixin, DeleteView):
             return redirect('task_list')
         return super().dispatch(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, _('Task was successfully deleted'))
-        return super().delete(request, *args, **kwargs)
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object.delete()
+        messages.success(self.request, _('Task was successfully deleted'))
+        return redirect(success_url)
 
 
 class TaskDetailView(CustomLoginRequiredMixin, DetailView):
