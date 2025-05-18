@@ -173,9 +173,7 @@ msgstr "Изменение задачи"
 msgid ""
 "You don't have permission to delete this task. Only the task creator can "
 "delete it."
-msgstr ""
-"У вас нет разрешения на удаление этой задачи. Только создатель задачи может "
-"ее удалить."
+msgstr "Задачу может удалить только ее автор"
 
 #: task_manager/tasks/views.py:101
 msgid "Task"
